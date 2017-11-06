@@ -1,20 +1,24 @@
 ---
 driver:
-  name: vagrant
+  name: dokken
+  chef_version: 12.21.26
+
+transport:
+  name: dokken
 
 provisioner:
-  name: chef_zero
-  # You may wish to disable always updating cookbooks in CI or other testing environments.
-  # For example:
-  #   always_update_cookbooks: <%= !ENV['CI'] %>
-  always_update_cookbooks: true
+  name: dokken
 
 verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu-16.04
-  - name: centos-7.3
+  - name: centos-6
+    driver:
+      image: centos:6.9
+  - name: ubuntu-16
+    driver:
+      image: ubuntu:16.04
 
 suites:
   - name: default
@@ -23,4 +27,4 @@ suites:
     verifier:
       inspec_tests:
         - test/smoke/default
-    attributes:
+    #attributes:

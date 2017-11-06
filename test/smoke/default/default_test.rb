@@ -5,14 +5,18 @@
 # The Inspec reference, with examples and extensive documentation, can be
 # found at http://inspec.io/docs/reference/resources/
 
-unless os.windows?
-  # This is an example test, replace with your own test.
-  describe user('root'), :skip do
-    it { should exist }
-  end
-end
 
-# This is an example test, replace it with your own test.
-describe port(80), :skip do
-  it { should_not be_listening }
+#
+# http resource is broken for this version of chef/inspec
+#
+#describe http('http://localhost') do 
+     #its('status') { should cmp 200 }
+     #ts('body') { should match 'Ardvark'}
+     #its('header') { should match 'Ardvark' }
+#end
+
+
+describe command('/usr/bin/curl localhost') do
+	its('stdout') { should match 'HOSTNAME'}
+	its('stdout') { should match /title.*Ardvark.*\<\// }
 end
