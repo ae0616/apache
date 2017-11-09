@@ -8,9 +8,9 @@
 #
 # Hack to force ubuntu to app-update before apt-install
 #
-apt_update 'update' do
-	ignore_failure
-end
+# apt_update 'update' do
+# 	ignore_failure
+# end
 
 package 'Install Apache' do
 	case node[:platform]
@@ -23,8 +23,15 @@ end
 
 template '/var/www/html/index.html' do
   source 'index.html.erb'
+  mode '0644'
 end
 
-service 'httpd' do
+service 'Enable Start WebServer' do
+	case node[:platform]
+	when 'ubuntu', 'debian'
+		service_name 'apache2'
+	else
+		service_name 'httpd'
+	end
   action [:enable, :start]
 end
